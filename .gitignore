@@ -7,6 +7,8 @@ node_modules/
 .expo/
 dist/
 web-build/
+lib/
+context/
 
 # Native
 *.orig.*
@@ -34,5 +36,3 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-
-lib/
