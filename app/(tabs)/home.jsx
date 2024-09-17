@@ -28,24 +28,14 @@ const Home = () => {
     await refetchLatest();
     setRefreshing(false);
   };  
-  const handleSave = async (videoId) => {
-    console.log("clicked")
-      try {
-        await saveVideo(videoId,user.$id);
-      }
-      catch (e) {
-        Alert.alert("Problem saving video")
-      }
-  }
+
   return (
     <SafeAreaView className="bg-primary h-full"> 
       <FlatList
-    
         data={posts}
-
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
-          <VideoCard video={item} handleSave={handleSave}></VideoCard>
+          <VideoCard refetch={refetch} video={item}></VideoCard>
         )}
         ListHeaderComponent={() => (
           <View className="my-6 px-4 ">

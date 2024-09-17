@@ -1,21 +1,37 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import React from "react";
 import { icons } from "../constants";
 import { useState } from "react";
-import { Video , ResizeMode } from "expo-av";
+import { Video, ResizeMode } from "expo-av";
+import { useGlobalContext } from "../context/GlobalProvider";
+import { saveVideo } from "../lib/appwrite";
+
 const VideoCard = ({
   video: {
     $id,
     title,
     thumbnail,
     video,
+    saver,
     creator: { username, avatar },
   },
-  handleSave
-
+  refetch,
 }) => {
   const [play, setPlay] = useState(false);
-
+  const { user } = useGlobalContext();
+  const handleSave = async (videoId) => {
+    try {
+      await saveVideo(videoId,user.$id);
+    }
+    catch (e) {
+      Alert.alert("Problem saving video")
+    }
+}
+  const handleBookmarking = async () => {
+    await handleSave($id);
+    await refetch();
+  };
+  const saved = saver.some(saver => saver.$id === user.$id)
   return (
     <View className="flex-col items-center px-4 mb-14">
       <View className="flex-row gap-3 items-start">
@@ -42,13 +58,18 @@ const VideoCard = ({
             </Text>
           </View>
         </View>
-        <TouchableOpacity onPress={()=>handleSave($id)} className="pt-2">
-          <Image  source={icons.menu} className="w-5 h-5" resizeMode="contain" />
+        <TouchableOpacity onPress={handleBookmarking} className="pt-2">
+          <Image
+            source={icons.bookmark}
+            resizeMode="contain"
+            tintColor={ saved ? "#FFA001" : "#CDCDE0" }
+            className=" w-6 h-6 "
+          />
         </TouchableOpacity>
       </View>
       {play ? (
         <Video
-          source={{uri : video}}
+          source={{ uri: video }}
           className="w-full h-60 rounded-xl mt-3"
           resizeMode={ResizeMode.CONTAIN}
           useNativeControls

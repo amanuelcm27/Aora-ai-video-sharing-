@@ -21,7 +21,7 @@ const Search = () => {
       <FlatList
         data={posts}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => <VideoCard video={item}></VideoCard>}
+        renderItem={({ item }) => <VideoCard refetch={refetch} video={item}></VideoCard>}
         ListHeaderComponent={() => (
           <View className="my-6 px-4 ">
             <View className="justify-between items-center flex-row">

@@ -1,7 +1,13 @@
 import VideoCard from "../../components/VideoCard";
 import useAppwrite from "../../lib/useAppwrite";
-import { getUserPosts, signOut } from "../../lib/appwrite";
-import { View, Image, FlatList, TouchableOpacity, RefreshControl } from "react-native";
+import { getSavedVideos, getUserPosts, signOut } from "../../lib/appwrite";
+import {
+  View,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  RefreshControl,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons, images } from "../../constants";
@@ -13,17 +19,22 @@ import { router } from "expo-router";
 const Profile = () => {
   const { user, setUser, setIsLoggedIn } = useGlobalContext();
   const { data: posts, refetch } = useAppwrite(() => getUserPosts(user.$id));
-  const [refreshing , setRefreshing  ] = useState()
+  const { data: bookmarks, refetch: refetchBookmarks } = useAppwrite(() =>
+    getSavedVideos(user.$id)
+  );
+
+  const [refreshing, setRefreshing] = useState();
   const onRefresh = async () => {
     setRefreshing(true);
     await refetch();
+    await refetchBookmarks();
     setRefreshing(false);
-  };  
+  };
   const logout = async () => {
     await signOut();
     setIsLoggedIn(false);
     setUser(null);
-    router.replace('/sign-in')
+    router.replace("/sign-in");
   };
   useEffect(() => {
     refetch();
@@ -33,7 +44,7 @@ const Profile = () => {
       <FlatList
         data={posts}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => <VideoCard video={item}></VideoCard>}
+        renderItem={({ item }) => <VideoCard refetch={refetch} video={item}></VideoCard>}
         ListHeaderComponent={() => (
           <View className="w-full justify-center items-center mt-6 mb-12 px-4 ">
             <TouchableOpacity
@@ -54,19 +65,20 @@ const Profile = () => {
               containerStyles=" mt-5 "
               titleStyles="text-lg"
             />
-            <View className=" flex-row">
+            <View className="flex-row">
               <InfoBox
                 title={posts.length || 0}
                 containerStyles=" mr-10 "
                 titleStyles="text-xl"
-                subtitle =  'Posts'
-
+                subtitle="Posts"
               />
-              <InfoBox
-                title="1.2k"
-                titleStyles="text-xl"
-                subtitle =  'Followers'
-              />
+              <TouchableOpacity onPress={()=>router.push('/bookmark')}>
+                <InfoBox
+                  title={bookmarks.length || 0}
+                  titleStyles="text-xl"
+                  subtitle="Bookmarks"
+                />
+              </TouchableOpacity>
             </View>
           </View>
         )}
