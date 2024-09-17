@@ -1,8 +1,6 @@
-import { Link, Redirect, router } from "expo-router";
+import {  Redirect, router } from "expo-router";
 import {
-  Button,
   ScrollView,
-  StyleSheet,
   Text,
   View,
   Image,

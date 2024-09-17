@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
-  RefreshControl,
 } from "react-native";
 import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";

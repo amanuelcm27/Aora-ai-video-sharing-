@@ -1,5 +1,5 @@
 import VideoCard from "../../components/VideoCard";
-import {  getSavedVideos, saveVideo,  } from "../../lib/appwrite";
+import {  getSavedVideos  } from "../../lib/appwrite";
 import { View, Text, FlatList, Alert, RefreshControl } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
