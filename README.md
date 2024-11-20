@@ -3,4 +3,4 @@ its a simple app where you can share AI Generated videos from your device in to 
 
 install it on your device if you want to try it out for your self 
 
-google drive like to the apk file : https://drive.google.com/file/d/1CBCDHki0rpIh7yHHP5d8YfDbjDN6Hl-i/view?usp=sharing
+google drive link to the apk file : https://drive.google.com/file/d/1CBCDHki0rpIh7yHHP5d8YfDbjDN6Hl-i/view?usp=sharing
